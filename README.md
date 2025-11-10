@@ -4,6 +4,8 @@ An MCP Server demonstration implemented in Amplify Fusion for generating a sales
 
 [Demo video](https://youtu.be/lAPNEqpimOc)
 
+* Requires access to Salesforce and an OpenAI API Key
+
 Current tools:
 
 * GetMyCompanyActiveContacts - Get a list of my company's most active contacts that may require attention
