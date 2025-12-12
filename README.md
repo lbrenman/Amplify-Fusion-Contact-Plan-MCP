@@ -4,9 +4,81 @@ An MCP Server demonstration implemented in Amplify Fusion for generating a sales
 
 [Demo video](https://youtu.be/lAPNEqpimOc)
 
-* Requires access to Salesforce and an OpenAI API Key
+* Requires access to Salesforce and an OpenAI API Key (for generating contact plan based on Contact->Account->Industry and Contact->Description fields in Salesforce)
 
 Current tools:
 
-* GetMyCompanyActiveContacts - Get a list of my company's most active contacts that may require attention
-* GetContactPlanByContactId - Get a contact plan by contact ID retrieved from the GetMyCompanyActiveContacts tool
+* **GetMyCompanyActiveContacts** - Get a list of my company's most active contacts that may require attention
+* **GetContactPlanByContactId** - Get a contact plan by contact ID retrieved from the GetMyCompanyActiveContacts tool
+
+## Prompts
+
+### Retrieving Active Contacts
+
+#### Getting Your Company's Active Contacts
+
+| Prompt | Tool Used |
+|--------|-----------|
+| "Get my company's active contacts" | `GetMyCompanyActiveContacts` |
+| "Get my active contacts" | `GetMyCompanyActiveContacts` |
+| "Get active contacts" | `GetMyCompanyActiveContacts` |
+| "Get my company's most active contacts that may require attention" | `GetMyCompanyActiveContacts` |
+| "Can you get all my company's active contacts?" | `GetMyCompanyActiveContacts` |
+| "Get active contact" | `GetMyCompanyActiveContacts` |
+| "Retrieve your company's active contacts" | `GetMyCompanyActiveContacts` |
+| "Get my company's most active contacts" | `GetMyCompanyActiveContacts` |
+| "What active contacts do I have?" | `GetMyCompanyActiveContacts` |
+
+---
+
+### Retrieving Individual Contact Plans
+
+#### Getting Specific Contact Plans by Name
+
+| Prompt | Tool Used |
+|--------|-----------|
+| "Rose" (after seeing Rose Gonzalez in active contacts list) | `GetContactPlanByContactId` |
+| "Josh" (when Josh Davis is mentioned) | `GetContactPlanByContactId` |
+| "Jeff Smith" | `GetContactPlanByContactId` |
+| "Arthur Song" | `GetContactPlanByContactId` |
+| "Get a contact plan for Andy Young" | `GetContactPlanByContactId` |
+| "Get contact plan for Pat" | `GetContactPlanByContactId` |
+| "Get contact report for Rose Gonzalez" | `GetContactPlanByContactId` |
+| "Yes, for edna" (in response to "Would you like a contact plan?") | `GetContactPlanByContactId` |
+| "Pull up Rose Gonzalez's contact plan" | `GetContactPlanByContactId` |
+| "I'll retrieve the contact plan for [Contact Name]" | `GetContactPlanByContactId` |
+
+---
+
+### Common Workflows & Usage Patterns
+
+#### Workflow 1: Active Contact Overview & Deep Dive
+
+```
+User: "Get my active contacts"
+→ Claude calls GetMyCompanyActiveContacts
+→ Returns list of 19-20 active contacts organized by priority/risk
+
+User: "Rose" or "Get contact plan for Rose Gonzalez"
+→ Claude calls GetContactPlanByContactId
+→ Returns detailed contact plan with sentiment, churn risk, talking points
+```
+
+#### Workflow 2: Multiple Contact Comparisons
+
+```
+User: "Get my active contacts"
+→ GetMyCompanyActiveContacts returns list
+→ User asks about specific contacts: "Rose", "Josh", "Arthur Song"
+→ Multiple GetContactPlanByContactId calls for each contact
+```
+
+#### Workflow 3: Account-Based Selling
+
+```
+User: "Get my active contacts"
+→ GetMyCompanyActiveContacts identifies multi-contact accounts
+→ User asks for plans for multiple contacts from same company
+→ Multiple GetContactPlanByContactId calls
+→ Claude synthesizes account strategy across contacts
+```
